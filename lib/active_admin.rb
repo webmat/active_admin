@@ -1,7 +1,7 @@
 require 'meta_search'
 require 'devise'
 require 'will_paginate'
-require 'sass'
+require 'sass' unless Rails.env.staging? || Rails.env.production?
 require 'active_admin/arbre'
 
 module ActiveAdmin
@@ -126,8 +126,10 @@ module ActiveAdmin
       yield self
 
       # Setup SASS
-      require 'sass/plugin' # This must be required after initialization
-      Sass::Plugin.add_template_location(File.expand_path("../active_admin/stylesheets/", __FILE__), File.join(Rails.root, "public/stylesheets/admin"))
+      unless Rails.env.staging? || Rails.env.production?
+        require 'sass/plugin' # This must be required after initialization
+        Sass::Plugin.add_template_location(File.expand_path("../active_admin/stylesheets/", __FILE__), File.join(Rails.root, "public/stylesheets/admin"))
+      end
     end
 
     # Registers a brand new configuration for the given resource.
