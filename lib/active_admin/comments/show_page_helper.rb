@@ -9,7 +9,7 @@ module ActiveAdmin
       # turned on for the current resource
       def default_main_content
         super
-        active_admin_comments if active_admin_config.comments?
+        active_admin_comments if active_admin_config.admin_notes?
       end
 
       # Display the comments for the resource. Same as calling
