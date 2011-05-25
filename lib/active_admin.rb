@@ -118,7 +118,7 @@ module ActiveAdmin
 
       # Dispatch request which gets triggered once in production
       # and on every require in development mode
-      ActionDispatch::Callbacks.to_prepare :active_admin do
+      ActionDispatch::Callbacks.to_prepare do
         ActiveAdmin.unload!
         Rails.application.reload_routes!
       end
@@ -134,7 +134,7 @@ module ActiveAdmin
 
     # Registers a brand new configuration for the given resource.
     def register(resource, options = {}, &block)
-      namespace_name = (options[:namespace] || default_namespace) == false ? :root : (options[:namespace] || default_namespace)
+      namespace_name = options[:namespace] == false ? :root : (options[:namespace] || default_namespace || :root)
       namespace = find_or_create_namespace(namespace_name)
       namespace.register(resource, options, &block)
     end
