@@ -1,7 +1,9 @@
+$production_like = Rails.env =~ /lab|staging|production/
+
 require 'meta_search'
 require 'devise'
 require 'will_paginate'
-require 'sass' unless Rails.env.staging? || Rails.env.production?
+require 'sass' unless $production_like
 require 'active_admin/arbre'
 
 module ActiveAdmin
@@ -126,7 +128,7 @@ module ActiveAdmin
       yield self
 
       # Setup SASS
-      unless Rails.env.staging? || Rails.env.production?
+      unless $production_like
         require 'sass/plugin' # This must be required after initialization
         Sass::Plugin.add_template_location(File.expand_path("../active_admin/stylesheets/", __FILE__), File.join(Rails.root, "public/stylesheets/admin"))
       end
